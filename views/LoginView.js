@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {Image} from "react-native-expo-image-cache";
 import { width, height, marginedWidth, getSize } from '../utils/LayoutUtil';
 import Colors from '../constants/Colors';
 import { verticalScale } from 'react-native-size-matters';
 import Fonts from '../constants/Fonts';
 import { fontedText } from '../constants/Styles';
+import connectToCircles from '../containers/circles';
 
 const styles = StyleSheet.create({
     container: {
@@ -48,15 +50,19 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class LoginView extends Component {
+class LoginView extends Component {
     touchAuthWithTwitter = () => {
         console.log('touchAuthWithTwitter!');
-        this.props.navigation.navigate('Main');
+        const { fetchCircles, navigation } = this.props;
+        fetchCircles();
+        navigation.navigate('Main');
     }
 
     touchNonAuth = () => {
         console.log('touchNonAuth!');
-        this.props.navigation.navigate('Main');
+        const { fetchCircles, navigation } = this.props;
+        fetchCircles();
+        navigation.navigate('Main');
     }
 
     render() {
@@ -64,7 +70,8 @@ export default class LoginView extends Component {
             <View style={styles.container}>
                 <Image
                     style={styles.backgroundImage}
-                    source="" />
+                    {...{uri: 'https://koetsuki.mosin.jp/api/images/keyvisual.png'}}
+                    />
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                         style={[styles.button, styles.authWithTwitterButton]}
@@ -85,3 +92,5 @@ export default class LoginView extends Component {
         )
     }
 }
+
+export default connectToCircles(LoginView);

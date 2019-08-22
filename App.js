@@ -5,25 +5,39 @@ import { createStackNavigator, createDrawerNavigator, createAppContainer } from 
 import Fonts from './constants/Fonts';
 import LoginView from './views/LoginView';
 import EventsView from './views/EventsView';
+import CirclesView from './views/CirclesView';
+import { Provider } from 'react-redux';
+import configureStore from './store';
+
+const EventsStack = createStackNavigator({
+    Events: { screen: EventsView },
+    Circles: { screen: CirclesView }
+}, {
+    initialRouteName: 'Events'
+}, {
+    gesturesEnabled: false
+
+});
 
 const mainContents = createDrawerNavigator({
-    Events: { screen: EventsView }
+    EventsStack
 }, {
-        initialRouteName: 'Events'
-    });
+    navigationOptions: {
+        gesturesEnabled: false
+    }
+});
 
 const initNavigator = createStackNavigator({
-    Login: { screen: LoginView, 
-        navigationOptions: () => ({
-            header: null
-        }),
-    },
+    Login: { screen: LoginView },
     Main: { screen: mainContents }
 }, {
-    initialRouteName: 'Login'
+    initialRouteName: 'Login',
+    headerMode: 'none'
 });
 
 const Navigation = createAppContainer(initNavigator);
+
+const { store } = configureStore();
 
 export default class App extends React.Component {
     state = {
@@ -39,7 +53,9 @@ export default class App extends React.Component {
 
     render() {
         return this.state.fontLoaded ? (
-            <Navigation/>
+            <Provider store={store}>
+                <Navigation/>
+            </Provider>
         ) : null;
     }
 }
