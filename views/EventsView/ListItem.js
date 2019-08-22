@@ -38,7 +38,7 @@ class ListItem extends Component {
                 <View style={styles.imageContainer}>
                     <Image 
                         style={styles.image} 
-                        resizeMode="contain"
+                        resizeMode="cover"
                         {...{uri: event.image}}/>
                 </View>
                 <View style={styles.contentContainer}>

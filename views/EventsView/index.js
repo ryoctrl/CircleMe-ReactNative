@@ -17,7 +17,10 @@ const styles = StyleSheet.create({
 class EventsView extends Component {
     static navigationOptions = {
         title: 'イベント',
-        headerTitleStyle: [fontedText, {fontSize: getSize(20)}]
+        headerTitleStyle: [fontedText, {fontSize: getSize(20), color: 'white'}],
+        headerStyle: {
+            backgroundColor: '#9B27B0'
+        }
     }
     state = {
         events: [
@@ -43,6 +46,13 @@ class EventsView extends Component {
             }
         ]
     }
+
+    constructor(props) {
+        super(props);
+        console.log(EventsView.navigationOptions);
+    }
+
+
 
     _extractKey = item => item.id.toString()
     _renderItem = ({item, index}) => <ListItem event={item}/>

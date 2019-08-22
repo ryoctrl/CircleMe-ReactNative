@@ -13,10 +13,11 @@ const EventsStack = createStackNavigator({
     Events: { screen: EventsView },
     Circles: { screen: CirclesView }
 }, {
-    initialRouteName: 'Events'
-}, {
-    gesturesEnabled: false
-
+    initialRouteName: 'Events',
+    gesturesEnabled: false,
+    headerStyle: {
+        backgroundColor: '#9B27B0'
+    }
 });
 
 const mainContents = createDrawerNavigator({

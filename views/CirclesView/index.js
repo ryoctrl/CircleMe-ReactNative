@@ -28,7 +28,10 @@ const formatData = (data, numColumns) => {
 class CirclesView extends Component {
     static navigationOptions = {
         title: 'サークル',
-        headerTitleStyle: [fontedText, { fontSize: getSize(20) }]
+        headerTitleStyle: [fontedText, {fontSize: getSize(20), color: 'white'}],
+        headerStyle: {
+            backgroundColor: '#9B27B0'
+        }
     }
     
 

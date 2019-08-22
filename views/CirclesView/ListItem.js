@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 class ListItem extends Component {
     render() {
         const { circle } = this.props;
-        const circleCutURL = circle.circleCut.startsWith('http') ? circle.circleCut : 'https://koetsuki.mosin.jp/api/images/' + circle.circleCut;
+        const circleCutURL = circle.circleCut.startsWith('http') ? 'https://koetsuki.mosin.jp/api/images/no-image.png': 'https://koetsuki.mosin.jp/api/images/' + circle.circleCut;
         return (
             <View style={styles.container}>
                 <TouchableOpacity onPress={() => null}>
