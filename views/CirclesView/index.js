@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View as RNView, Text, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { width, height, getSize } from '../../utils/LayoutUtil';
 import ListItem from './ListItem';
+import View from '../../components/View';
 import { fontedText } from '../../constants/Styles';
 import connectToCircles from '../../containers/circles';
+import ContentView from '../../components/ContentView';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center'
     },
     flatList: {
         flex: 1,
+        width: width * 0.95
     }
 });
 
@@ -25,24 +29,23 @@ const formatData = (data, numColumns) => {
     return data;
 };
 
-class CirclesView extends Component {
-    static navigationOptions = {
-        title: 'サークル',
-        headerTitleStyle: [fontedText, {fontSize: getSize(20), color: 'white'}],
-        headerStyle: {
-            backgroundColor: '#9B27B0'
-        }
+class CirclesView extends ContentView {
+    constructor(props) {
+        super(props);
+        const { navigation } = this.props;
+        console.log('circles!');
+        console.log(navigation.state);
+        navigation.setParams({ title: 'サークル' });
     }
-    
 
     _extractKey = item => item.id.toString()
     _renderItem = ({ item, index }) => item.empty ? <View style={{flex: 1}}><Text>No</Text></View>: <ListItem circle={item} />
 
     render() {
-        const { circles } = this.props;
+        const { circles, navigation} = this.props;
         const circleData = formatData(circles.datas, 2);
         return (
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container} navigation={navigation}>
                 <FlatList
                     style={styles.flatList}
                     keyExtractor={this._extractKey}
@@ -50,7 +53,7 @@ class CirclesView extends Component {
                     renderItem={this._renderItem}
                     numColumns={2}
                 />
-            </SafeAreaView>
+            </View>
         )
     }
 };

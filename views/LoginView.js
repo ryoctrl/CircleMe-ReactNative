@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
 import {Image} from "react-native-expo-image-cache";
 import { width, height, marginedWidth, getSize } from '../utils/LayoutUtil';
 import Colors from '../constants/Colors';
@@ -7,6 +7,8 @@ import { verticalScale } from 'react-native-size-matters';
 import Fonts from '../constants/Fonts';
 import { fontedText } from '../constants/Styles';
 import connectToCircles from '../containers/circles';
+import connectToApp from '../containers/app';
+import { Linking } from 'expo';
 
 const styles = StyleSheet.create({
     container: {
@@ -47,32 +49,69 @@ const styles = StyleSheet.create({
     },
     nonAuthText: {
         color: Colors.MONO.BLACK
+    },
+    activityIndicator: {
+        flex: 1,
+        zIndex: 2,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
 
 class LoginView extends Component {
+    buccha = () => {
+        Linking.openURL('twitter://user?screen_name=buccha4986');
+
+    }
+
+    mosin = () => {
+        Linking.openURL('twitter://user?screen_name=mosin_nozomi');
+
+    }
     touchAuthWithTwitter = () => {
         console.log('touchAuthWithTwitter!');
-        const { fetchCircles, navigation } = this.props;
-        fetchCircles();
-        navigation.navigate('Main');
+        const { initialize, navigation } = this.props;
+        initialize(navigation);
     }
 
     touchNonAuth = () => {
         console.log('touchNonAuth!');
-        const { fetchCircles, navigation } = this.props;
-        fetchCircles();
-        navigation.navigate('Main');
+        const { initialize, navigation } = this.props;
+        initialize(navigation);
     }
 
     render() {
+        const { app } = this.props;
         return (
             <View style={styles.container}>
+                {app.initializing && <ActivityIndicator size="large" style={styles.activityIndicator}/>}
                 <Image
                     style={styles.backgroundImage}
-                    {...{uri: 'https://koetsuki.mosin.jp/api/images/keyvisual.png'}}
+                    /*{...{uri: 'https://koetsuki.mosin.jp/api/images/keyvisual.png'}}*/
+                    {...{uri: ''}}
                     />
                 <View style={styles.buttonContainer}>
+                    {/*
+                    <TouchableOpacity
+                        style={[styles.button, styles.authWithTwitterButton]}
+                        onPress={this.buccha}>
+                        <Text style={[fontedText, styles.buttonText, styles.authWithTwitterText]}>
+                            buccha4986
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.button, styles.authWithTwitterButton]}
+                        onPress={this.mosin}>
+                        <Text style={[fontedText, styles.buttonText, styles.authWithTwitterText]}>
+                            mosin_nozomi
+                        </Text>
+                    </TouchableOpacity>
+                    */}
                     <TouchableOpacity
                         style={[styles.button, styles.authWithTwitterButton]}
                         onPress={this.touchAuthWithTwitter}>
@@ -93,4 +132,4 @@ class LoginView extends Component {
     }
 }
 
-export default connectToCircles(LoginView);
+export default connectToApp(LoginView)

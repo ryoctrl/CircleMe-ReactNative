@@ -1,17 +1,18 @@
-import { fork, take, call, put, join, select } from 'redux-saga/effects'
+import { fork, take, call, put, join, select, takeEvery } from 'redux-saga/effects'
 import { fetchCircles as fetchCirclesAction, successFetchCircles, failureFetchCircles} from '../modules/Circles';
-import { fetchCircles } from '../libs/api';
+import { fetchCircles as fetchCirclesAPI} from '../libs/api';
+
+export function* fetchCircles() {
+    const { data, error } = yield call(fetchCirclesAPI);
+    if(data && !error) {
+        yield put(successFetchCircles({data}));
+    } else {
+        yield put(failureFetchCircles({error}));
+    }
+}
 
 function* fetchCirclesFlow() {
-    while(true) {
-        yield take(fetchCirclesAction);
-        const { data, error } = yield call(fetchCircles);
-        if(data && !error) {
-            yield put(successFetchCircles({data}));
-        } else {
-            yield put(failureFetchCircles({error}));
-        }
-    }
+    yield takeEvery(fetchCirclesAction, fetchCircles);
 }
 
 export default function* rootCircles() {

@@ -1,27 +1,48 @@
 import React from 'react';
 import * as Font from 'expo-font';
 import { StyleSheet, Text, View } from 'react-native';
-import { createStackNavigator, createDrawerNavigator, createAppContainer } from 'react-navigation';
+import { 
+    createStackNavigator, 
+    createDrawerNavigator, 
+    createAppContainer,
+    createBottomTabNavigator
+} from 'react-navigation';
 import Fonts from './constants/Fonts';
 import LoginView from './views/LoginView';
 import EventsView from './views/EventsView';
 import CirclesView from './views/CirclesView';
 import { Provider } from 'react-redux';
 import configureStore from './store';
+import Colors from './constants/Colors';
+import { fontedText } from './constants/Styles';
+import { getSize } from './utils/LayoutUtil';
+
+const EventTabStack = createBottomTabNavigator({
+    Circles: { screen: CirclesView },
+}, {
+    initialRouteName: 'Circles',
+    navigationOptions: {
+        gesturesEnabled: false
+    },
+});
+
 
 const EventsStack = createStackNavigator({
     Events: { screen: EventsView },
-    Circles: { screen: CirclesView }
+    Detail: { screen: EventTabStack },
 }, {
     initialRouteName: 'Events',
-    gesturesEnabled: false,
-    headerStyle: {
-        backgroundColor: '#9B27B0'
+    defaultNavigationOptions: {
+        headerTintColor: 'white',
+        headerTitleStyle: [fontedText, {fontSize: getSize(20), color: 'white'}],
+        headerStyle: {
+            backgroundColor: Colors.THEME.YUKARI.MAIN
+        }
     }
 });
 
 const mainContents = createDrawerNavigator({
-    EventsStack
+    EventsStack,
 }, {
     navigationOptions: {
         gesturesEnabled: false
@@ -33,7 +54,7 @@ const initNavigator = createStackNavigator({
     Main: { screen: mainContents }
 }, {
     initialRouteName: 'Login',
-    headerMode: 'none'
+    headerMode: 'none',
 });
 
 const Navigation = createAppContainer(initNavigator);
