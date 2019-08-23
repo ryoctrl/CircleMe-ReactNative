@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { View as RNView, Text, FlatList, StyleSheet } from 'react-native';
+import { Text, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { width, height, getSize } from '../../utils/LayoutUtil';
 import ListItem from './ListItem';
-import View from '../../components/View';
 import { fontedText } from '../../constants/Styles';
 import connectToCircles from '../../containers/circles';
-import ContentView from '../../components/ContentView';
+import IconButton from '../../components/IconButton';
 
 const styles = StyleSheet.create({
     container: {
@@ -29,23 +28,20 @@ const formatData = (data, numColumns) => {
     return data;
 };
 
-class CirclesView extends ContentView {
-    constructor(props) {
-        super(props);
-        const { navigation } = this.props;
-        console.log('circles!');
-        console.log(navigation.state);
-        navigation.setParams({ title: 'サークル' });
+class CirclesView extends Component {
+    static navigationOptions = {
+        title: 'サークル',
+        headerLeft: <IconButton iconName="keyboard_arrow_left" action="back" />
     }
-
+    static navigationOptions = ({navigation}) => ({title: 'サークル'})
     _extractKey = item => item.id.toString()
     _renderItem = ({ item, index }) => item.empty ? <View style={{flex: 1}}><Text>No</Text></View>: <ListItem circle={item} />
 
     render() {
-        const { circles, navigation} = this.props;
+        const { circles, navigation } = this.props;
         const circleData = formatData(circles.datas, 2);
         return (
-            <View style={styles.container} navigation={navigation}>
+            <SafeAreaView style={styles.container} navigation={navigation}>
                 <FlatList
                     style={styles.flatList}
                     keyExtractor={this._extractKey}
@@ -53,7 +49,7 @@ class CirclesView extends ContentView {
                     renderItem={this._renderItem}
                     numColumns={2}
                 />
-            </View>
+            </SafeAreaView>
         )
     }
 };

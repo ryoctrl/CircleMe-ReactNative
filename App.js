@@ -11,11 +11,17 @@ import Fonts from './constants/Fonts';
 import LoginView from './views/LoginView';
 import EventsView from './views/EventsView';
 import CirclesView from './views/CirclesView';
+import SettingsView from './views/SettingsView';
 import { Provider } from 'react-redux';
 import configureStore from './store';
 import Colors from './constants/Colors';
 import { fontedText } from './constants/Styles';
 import { getSize } from './utils/LayoutUtil';
+import Header from './components/Header';
+import { MaterialIcons } from '@expo/vector-icons'
+import { Button } from 'react-native-elements';
+import Icon from './components/Icon'
+import DrawerButton from './components/DrawerButton';
 
 const EventTabStack = createBottomTabNavigator({
     Circles: { screen: CirclesView },
@@ -33,6 +39,23 @@ const EventsStack = createStackNavigator({
 }, {
     initialRouteName: 'Events',
     defaultNavigationOptions: {
+        header: headerProps => <Header headerProps={headerProps}/>,
+        headerLeft: <DrawerButton/>,
+        headerTintColor: 'white',
+        headerTitleStyle: [fontedText, {fontSize: getSize(20), color: 'white'}],
+        headerStyle: {
+            backgroundColor: Colors.THEME.YUKARI.MAIN
+        }
+    }
+});
+
+const SettingsStack = createStackNavigator({
+    Settings: { screen: SettingsView }
+}, {
+    initialRouteName: 'Settings',
+    defaultNavigationOptions: {
+        header: headerProps => <Header headerProps={headerProps}/>,
+        headerLeft: <DrawerButton/>,
         headerTintColor: 'white',
         headerTitleStyle: [fontedText, {fontSize: getSize(20), color: 'white'}],
         headerStyle: {
@@ -42,7 +65,8 @@ const EventsStack = createStackNavigator({
 });
 
 const mainContents = createDrawerNavigator({
-    EventsStack,
+    ['イベント']: EventsStack,
+    ['設定']: SettingsStack
 }, {
     navigationOptions: {
         gesturesEnabled: false

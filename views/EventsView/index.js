@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Text, FlatList, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
-import View from '../../components/View';
+import SafeAreaView from '../../components/View';
 import { width, height, getSize } from '../../utils/LayoutUtil';
 import ListItem from './ListItem';
 import { fontedText } from '../../constants/Styles';
-import ContentView from '../../components/ContentView';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
     container: {
@@ -18,7 +17,14 @@ const styles = StyleSheet.create({
     }
 });
 
-class EventsView extends ContentView {
+class EventsView extends Component {
+    static navigationOptions = {
+        title: 'イベント',
+        rightButton: (
+            <MaterialIcons name="menu"/>
+        )
+    }
+
     state = {
         events: [
             {
@@ -44,13 +50,6 @@ class EventsView extends ContentView {
         ]
     }
 
-    constructor(props) {
-        super(props);
-        const { navigation } = this.props;
-        console.log('events!');
-        console.log(navigation.state);
-        navigation.setParams({ title: 'イベント' });
-    }
 
     _extractKey = item => item.id.toString()
     _renderItem = ({item, index}) => <ListItem event={item}/>
@@ -58,14 +57,14 @@ class EventsView extends ContentView {
     render() {
         const { navigation } = this.props;
         return (
-            <View style={styles.container} navigation={navigation}>
+            <SafeAreaView style={styles.container}>
                 <FlatList
                     style={styles.flatList}
                     keyExtractor={this._extractKey}
                     data={this.state.events}
                     renderItem={this._renderItem}
                 />
-            </View>
+            </SafeAreaView>
         )
     }
 };

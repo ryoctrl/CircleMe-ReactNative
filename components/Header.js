@@ -1,18 +1,20 @@
-import { Header } from 'react-navigation-stack';
 
-export default class CustomHeader extends Header {
-    constructor(props) {
-        super(props);
-        console.log('constructing!');
+import React from 'react';
+import { Header as RNHeader} from  'react-navigation-stack';
+import connectToTheme from '../containers/theme';
 
-    }
+class Header extends React.Component {
     render() {
-        console.log('child header rendering!')
-        return (
-            <View>
+        const { headerProps, theme:{theme} } = this.props;
+        const { options } = headerProps.scene.descriptor;
+        options.headerStyle.backgroundColor = theme.MAIN;
+        options.headerTintColor = theme.SUB;
+        options.headerTitleStyle.map(style => style.hasOwnProperty('color') ? style.color = theme.SUB : style);
 
-            </View>
+        return (
+            <RNHeader {...headerProps} headerStyle={{backgroundColor: 'black'}}/>
         )
-        //super(render);
     }
 }
+
+export default connectToTheme(Header);
