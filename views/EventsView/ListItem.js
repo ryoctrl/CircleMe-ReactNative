@@ -5,6 +5,7 @@ import { getSize } from '../../utils/LayoutUtil';
 import { fontedText } from '../../constants/Styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {withNavigation} from 'react-navigation';
+//import Routes from '../../constants/Routes';
 
 const styles = StyleSheet.create({
     container: {
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
 });
 
 class ListItem extends Component {
-    _onPress = () => this.props.navigation.navigate('Circles');
+    _onPress = () => this.props.navigation.navigate('Circles', {leftType: 'Back'});
     render() {
         const { event } = this.props;
         return (

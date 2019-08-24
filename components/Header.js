@@ -1,20 +1,32 @@
-
 import React from 'react';
-import { Header as RNHeader} from  'react-navigation-stack';
+import { Text } from 'react-native';
+import { Header } from  'react-navigation-stack';
 import connectToTheme from '../containers/theme';
+import connectToNavigation from '../containers/navigation';
+import { fontedText } from '../constants/Styles';
+import { getSize } from '../utils/LayoutUtil';
 
-class Header extends React.Component {
+export default connectToNavigation(connectToTheme(class extends React.Component {
     render() {
-        const { headerProps, theme:{theme} } = this.props;
+        const { headerProps, theme:{theme}, navigationData } = this.props;
         const { options } = headerProps.scene.descriptor;
-        options.headerStyle.backgroundColor = theme.MAIN;
+        //options.title = navigationData.title;
+        options.headerStyle ? options.headerStyle.backgroundColor = theme.MAIN : options.headerStyle = { backgroundColor: theme.MAIN };
         options.headerTintColor = theme.SUB;
-        options.headerTitleStyle.map(style => style.hasOwnProperty('color') ? style.color = theme.SUB : style);
+        options.headerTitleStyle 
+            ? options.headerTitleStyle.map(style => style.hasOwnProperty('color') ? style.color = theme.SUB : style)
+            : options.headerTitleStyle = [fontedText, { fontSize: getSize(20), color: theme.SUB}];
+        
+        return <Header {...headerProps} headerStyle={{}}/>
+    }
+}));
 
+export const Title = connectToNavigation(class extends React.Component {
+    render() {
         return (
-            <RNHeader {...headerProps} headerStyle={{backgroundColor: 'black'}}/>
+            <Text>
+                hello
+            </Text>
         )
     }
-}
-
-export default connectToTheme(Header);
+});

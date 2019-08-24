@@ -1,5 +1,5 @@
-import { fork, take, call, put, join, select, takeEvery } from 'redux-saga/effects'
-import { fetchCircles as fetchCirclesAction, successFetchCircles, failureFetchCircles} from '../modules/Circles';
+import { fork, take, call, put, join, select, takeEvery, delay } from 'redux-saga/effects'
+import { fetchCircles as fetchCirclesAction, successFetchCircles, failureFetchCircles, changeCircles} from '../modules/Circles';
 import { fetchCircles as fetchCirclesAPI} from '../libs/api';
 
 export function* fetchCircles() {

@@ -5,6 +5,8 @@ import { width, height, getSize } from '../../utils/LayoutUtil';
 import ListItem from './ListItem';
 import { fontedText } from '../../constants/Styles';
 import { MaterialIcons } from '@expo/vector-icons';
+import connectToNavigation from '../../containers/navigation';
+import { Title } from '../../components/Header';
 
 const styles = StyleSheet.create({
     container: {
@@ -18,13 +20,6 @@ const styles = StyleSheet.create({
 });
 
 class EventsView extends Component {
-    static navigationOptions = {
-        title: 'イベント',
-        rightButton: (
-            <MaterialIcons name="menu"/>
-        )
-    }
-
     state = {
         events: [
             {
@@ -53,11 +48,10 @@ class EventsView extends Component {
 
     _extractKey = item => item.id.toString()
     _renderItem = ({item, index}) => <ListItem event={item}/>
-    
+
     render() {
-        const { navigation } = this.props;
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container} title="イベント">
                 <FlatList
                     style={styles.flatList}
                     keyExtractor={this._extractKey}
@@ -69,4 +63,4 @@ class EventsView extends Component {
     }
 };
 
-export default EventsView;
+export default connectToNavigation(EventsView);

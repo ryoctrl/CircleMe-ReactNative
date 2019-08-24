@@ -64,6 +64,10 @@ const styles = StyleSheet.create({
 });
 
 class LoginView extends Component {
+    static navigationOptions = {
+        header: null
+
+    }
     buccha = () => {
         Linking.openURL('twitter://user?screen_name=buccha4986');
 

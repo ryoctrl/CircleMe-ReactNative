@@ -4,6 +4,7 @@ import {Image} from "react-native-expo-image-cache";
 import { getSize } from '../../utils/LayoutUtil';
 import { fontedText } from '../../constants/Styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
     container: {
@@ -40,12 +41,13 @@ const styles = StyleSheet.create({
 });
 
 class ListItem extends Component {
+    _onPress = () => this.props.navigation.navigate('Circle', { circleId: this.props.circle.id, leftType: 'Back' });
     render() {
         const { circle } = this.props;
         const circleCutURL = circle.circleCut.startsWith('http') ? 'https://koetsuki.mosin.jp/api/images/no-image.png': 'https://koetsuki.mosin.jp/api/images/' + circle.circleCut;
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => null}>
+                <TouchableOpacity onPress={this._onPress}>
 
                     <View style={styles.imageContainer}>
                         <Image 
@@ -70,4 +72,4 @@ class ListItem extends Component {
     }
 }
 
-export default ListItem;
+export default withNavigation(ListItem);

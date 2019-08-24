@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text, FlatList, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { withNavigation } from 'react-navigation';
+import SafeAreaView from '../../components/View';
 import { width, height, getSize } from '../../utils/LayoutUtil';
 import ListItem from './ListItem';
 import { fontedText } from '../../constants/Styles';
@@ -30,22 +31,24 @@ const formatData = (data, numColumns) => {
 
 class CirclesView extends Component {
     static navigationOptions = {
-        title: 'サークル',
         headerLeft: <IconButton iconName="keyboard_arrow_left" action="back" />
     }
-    static navigationOptions = ({navigation}) => ({title: 'サークル'})
     _extractKey = item => item.id.toString()
-    _renderItem = ({ item, index }) => item.empty ? <View style={{flex: 1}}><Text>No</Text></View>: <ListItem circle={item} />
+    _renderItem = ({ item, index }) => item.empty ? <View style={{flex: 1}}/>: <ListItem circle={item} />
 
     render() {
-        const { circles, navigation } = this.props;
+        const { circles } = this.props;
         const circleData = formatData(circles.datas, 2);
+
         return (
-            <SafeAreaView style={styles.container} navigation={navigation}>
+            <SafeAreaView style={styles.container} title="サークル">
                 <FlatList
                     style={styles.flatList}
+                    removeClippedSubviews={true}
+                    initialNumToRender={6}
                     keyExtractor={this._extractKey}
                     data={circleData}
+                    execData={circles.updatedAt}
                     renderItem={this._renderItem}
                     numColumns={2}
                 />
@@ -54,4 +57,4 @@ class CirclesView extends Component {
     }
 };
 
-export default connectToCircles(CirclesView);
+export default withNavigation(connectToCircles(CirclesView));
