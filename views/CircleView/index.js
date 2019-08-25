@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import SafeAreaView from '../../components/View';
 import { View, Text, StyleSheet } from 'react-native';
 import connectToCircles from '../../containers/circles';
-import { width, height, getSize } from '../../utils/LayoutUtil'
-import Icon from '../../components/Icon';
+import { width, getSize } from '../../utils/LayoutUtil'
 import { SocialIcon } from 'react-native-elements';
 import { Linking } from 'expo';
 import { fontedText } from '../../constants/Styles';
@@ -11,34 +10,43 @@ import { FlatList } from 'react-native-gesture-handler';
 import ListItem from './ListItem';
 import Divider from '../../components/Divider';
 import { formatData } from '../../utils/LayoutUtil';
+import ImageBackground from '../../components/ImageBackground';
+import TwitterButton from '../../components/TwitterButton';
 
 const styles = StyleSheet.create({
     center: {
         alignItems: 'center',
     },
     wrapper: {
-        width: width * 0.9,
-        height,
+        flex: 1,
+        width,
+        alignItems: 'center',
     },
     nameText: {
-        fontSize: getSize(18)
+        fontSize: getSize(18),
     },
     penNameContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        //height: getSize(22),
     },
     penNameText: {
-        fontSize: getSize(20),
+        fontSize: getSize(22),
     },
     spaceText: {
-        fontSize: getSize(18)
-
+        fontSize: getSize(18),
     },
-    introContainer: {
+    overlay: {
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        alignItems: 'center'
+    },
+    overlayContent: {
+        width: width * 0.9,
     },
     flatList: {
-        flexGrow: 1
+        width: width * 0.9,
+    },
+    icon: {
+        height: getSize(20),
     }
 });
 
@@ -68,28 +76,35 @@ class CircleView extends Component {
         const { circles: { datas: circles }, navigation } = this.props;
         const circleId = navigation.getParam('circleId');
         const circle = circles.filter(circle => circle.id === circleId)[0];
+        const circleCutURL = circle.circleCut.startsWith('http') ? 'https://koetsuki.mosin.jp/api/images/no-image.png': 'https://koetsuki.mosin.jp/api/images/' + circle.circleCut;
         return (
-            <SafeAreaView style={styles.center}>
+            <SafeAreaView>
                 <View style={styles.wrapper}>
-                    <View style={styles.introContainer}>
-                        <Text style={[fontedText, styles.nameText]}>
-                            {circle.name}
-                        </Text>
-                        <View style={styles.penNameContainer}>
-                            <Text style={[fontedText, styles.penNameText]}>
-                                {circle.penName}
-                            </Text>
-                            {circle.twitter ? <SocialIcon type="twitter" light onPress={() => this._twitterPress(circle.twitter)} raised={false}/> : null}
-                        </View>
-                        <Text style={[fontedText, styles.spaceText]}>
-                            {circle.spaceName}
-                        </Text>
-                    </View>
+                    <ImageBackground
+                        style={{width}} 
+                        resizeMode="cover"
+                        {...{uri: circleCutURL}}>
+                            <View style={styles.overlay}>
+                                <View style={styles.overlayContent}>
+                                    <Text style={[fontedText, styles.nameText]}>
+                                        {circle.name}
+                                    </Text>
+                                    <View style={styles.penNameContainer}>
+                                        <Text style={[fontedText, styles.penNameText]}>
+                                            {circle.penName}
+                                        </Text>
+                                        {circle.twitter ? <TwitterButton onPress={() => this._twitterPress(circle.twitter)} style={styles.icon} text={circle.twitter}/> : null}
+                                    </View>
+                                    <Text style={[fontedText, styles.spaceText]}>
+                                        {circle.spaceName}
+                                    </Text>
+                                </View>
+                            </View>
+                        </ImageBackground>
 
                     <Divider />
                 
                     <FlatList
-                        contentContainerStyle={{flexGrow: 1}}
                         style={styles.flatList}
                         keyExtractor={this._extractKey}
                         data={formatData(circle.goods, 2)}

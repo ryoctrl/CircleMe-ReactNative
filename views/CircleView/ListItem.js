@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import {Image} from "react-native-expo-image-cache"
 import { getSize } from '../../utils/LayoutUtil';
 import ImageBackground from '../../components/ImageBackground';
 import Colors from '../../constants/Colors';
+import { fontedText } from '../../constants/Styles';
 
 const styles = StyleSheet.create({
     container: {
@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
     text: {
         fontSize: getSize(16),
         color: Colors.MONO.WHITE
+    },
+    priceText: {
+        fontSize: getSize(16),
+        color: Colors.MONO.WHITE
     }
 })
 
@@ -34,8 +38,8 @@ class ListItem extends Component {
                     resizeMode="cover"
                     {...{uri: goodsImageURL}}>
                         <View style={styles.overlay}>
-                            <Text style={styles.text}>{goods.name}</Text>
-                            <Text style={styles.text}>{goods.price}</Text>
+                            <Text style={[styles.text, fontedText]}>{goods.name}</Text>
+                            <Text style={[styles.priceText, fontedText]}>{goods.price}</Text>
                         </View>
                 </ImageBackground>
             </View>

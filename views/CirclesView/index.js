@@ -7,6 +7,7 @@ import ListItem from './ListItem';
 import { fontedText } from '../../constants/Styles';
 import connectToCircles from '../../containers/circles';
 import IconButton from '../../components/IconButton';
+import { formatData } from '../../utils/LayoutUtil';
 
 const styles = StyleSheet.create({
     container: {
@@ -18,16 +19,6 @@ const styles = StyleSheet.create({
         width: width * 0.95
     }
 });
-
-const formatData = (data, numColumns) => {
-    const numberOfFullRows = Math.floor(data.length / numColumns);
-    let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
-    while(numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
-        data.push({id: `blank-${numberOfElementsLastRow}`, empty: true});
-        numberOfElementsLastRow++;
-    }
-    return data;
-};
 
 class CirclesView extends Component {
     static navigationOptions = {

@@ -6,7 +6,7 @@ class ImageBackground extends Component {
   setNativeProps(props) {
     const viewRef = this._viewRef;
     if (viewRef) {
-      ensureComponentIsNative(viewRef);
+      //ensureComponentIsNative(viewRef);
       viewRef.setNativeProps(props);
     }
   }
