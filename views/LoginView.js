@@ -9,6 +9,7 @@ import { fontedText } from '../constants/Styles';
 import connectToCircles from '../containers/circles';
 import connectToApp from '../containers/app';
 import { Linking } from 'expo';
+import { authWithTwitter } from '../libs/firebase';
 
 const styles = StyleSheet.create({
     container: {
@@ -80,6 +81,13 @@ class LoginView extends Component {
     touchAuthWithTwitter = () => {
         console.log('touchAuthWithTwitter!');
         const { initialize, navigation } = this.props;
+        authWithTwitter(result => {
+            console.log('login succeeded!!');
+            console.log(result);
+        }, error => {
+            console.log('login failure!');
+            console.log(error);
+        });
         initialize(navigation);
     }
 
