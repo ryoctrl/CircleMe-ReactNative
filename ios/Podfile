@@ -32,4 +32,6 @@ target 'CircleMe' do
 
   use_unimodules!
 
+  pod 'ReactNativeTwitterKit', :path => '../node_modules/react-native-twitterkit'
+
 end
